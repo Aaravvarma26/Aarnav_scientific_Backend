@@ -78,6 +78,7 @@ export async function POST(req: NextRequest) {
         <li><strong>Product:</strong> ${data.productName || "—"}</li>
         <li><strong>Quantity:</strong> ${data.quantity || "—"}</li>
         <li><strong>Message:</strong> ${data.message}</li>
+        ${attachmentUrl ? `<li><strong>Attachment:</strong> <a href="${siteConfig.url}${attachmentUrl}">${siteConfig.url}${attachmentUrl}</a></li>` : ""}
       </ul><p><a href="${siteConfig.url}/admin/inquiries/${inquiry.id}">View in admin panel</a></p>`,
     }),
   ]).catch((err) => console.error("Failed to send inquiry emails", err));
