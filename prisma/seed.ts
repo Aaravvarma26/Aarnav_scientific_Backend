@@ -133,6 +133,23 @@ async function main() {
   });
   console.log(`Admin user ready: ${adminEmail}`);
 
+  // Additional admin user
+  const admin2Email = "aaravvarma2004@gmail.com";
+  const admin2Password = "02092004";
+  const admin2PasswordHash = await bcrypt.hash(admin2Password, 12);
+
+  await prisma.user.upsert({
+    where: { email: admin2Email },
+    update: {},
+    create: {
+      name: "Aarav Varma",
+      email: admin2Email,
+      passwordHash: admin2PasswordHash,
+      roleId: roleAdmin.id,
+    },
+  });
+  console.log(`Admin user ready: ${admin2Email}`);
+
   // -------------------------------------------------------------------
   // 3. Categories
   // -------------------------------------------------------------------
@@ -310,7 +327,7 @@ async function main() {
     { key: "featured-products", title: "Featured Products" },
     { key: "industries-served", title: "Industries We Serve" },
     { key: "global-presence", title: "Our Global Presence" },
-    { key: "certificates", title: "Certifications & Compliance" },
+    { key: "certificates", title: "Certifications & Downloads" },
     { key: "manufacturing", title: "Manufacturing Capabilities" },
     { key: "testimonials", title: "What Our Partners Say" },
     { key: "partners", title: "Trusted By" },
