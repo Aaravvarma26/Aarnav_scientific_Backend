@@ -413,3 +413,21 @@ model NewsletterSubscriber {
   email     String   @unique
   createdAt DateTime @default(now())
 }
+
+// NOTE: this model is not yet present in the live production database —
+// it was recovered from git history to match the frontend's COA request
+// form and src/common/validations.ts's coaRequestSchema, both of which
+// already expect it. Run `npx prisma migrate dev` (or the equivalent
+// deploy command) against your database before this feature will work.
+model COARequest {
+  id          String   @id @default(cuid())
+  productId   String?
+  productName String?
+  sku         String
+  batchNo     String
+  email       String
+  createdAt   DateTime @default(now())
+
+  @@index([email])
+  @@index([sku])
+}
