@@ -81,13 +81,6 @@ async function uploadToS3(buffer: Buffer, fileName: string, mimeType: string): P
   return { url, fileName, size: buffer.length, mimeType };
 }
 
-async function uploadToLocalDisk(buffer: Buffer, fileName: string, mimeType: string): Promise<UploadResult> {
-  const dir = path.join(process.cwd(), "public", "uploads");
-  await mkdir(dir, { recursive: true });
-  await writeFile(path.join(dir, fileName), buffer);
-  return { url: `/uploads/${fileName}`, fileName, size: buffer.length, mimeType };
-}
-
 /**
  * Deletes the underlying stored file for a URL previously returned by
  * uploadFile(), from whichever provider it was actually stored on
@@ -160,6 +153,13 @@ async function deleteFromLocalDisk(url: string): Promise<void> {
   const { unlink } = await import("node:fs/promises");
   const filePath = path.join(process.cwd(), "public", url);
   await unlink(filePath);
+}
+
+async function uploadToLocalDisk(buffer: Buffer, fileName: string, mimeType: string): Promise<UploadResult> {
+  const dir = path.join(process.cwd(), "public", "uploads");
+  await mkdir(dir, { recursive: true });
+  await writeFile(path.join(dir, fileName), buffer);
+  return { url: `/uploads/${fileName}`, fileName, size: buffer.length, mimeType };
 }
 
 export const ALLOWED_MIME_TYPES = [

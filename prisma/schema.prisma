@@ -3,7 +3,8 @@
 // Reconstructed from a live database dump (Aarnav_mysql.sql).
 // Every model, field, type, default, index, and relation below is taken
 // directly from that dump's CREATE TABLE / CREATE INDEX / ALTER TABLE
-// statements — nothing here is inferred or guessed.
+// statements — nothing here is inferred or guessed, except two models
+// explicitly marked below as not yet present in the live database.
 // ==========================================================================
 
 generator client {
@@ -228,7 +229,7 @@ model Industry {
   name           String
   slug           String   @unique
   summary        String?
-  content        String?
+  content        String?   @db.LongText
   imageUrl       String?
   iconName       String?
   sortOrder      Int      @default(0)
@@ -252,7 +253,7 @@ model BlogPost {
   title          String
   slug           String    @unique
   excerpt        String?
-  content        String
+  content        String    @db.LongText
   featuredImage  String?
   status         String    @default("DRAFT")
   authorId       String?
@@ -280,6 +281,22 @@ model Certificate {
   fileUrl    String?
   sortOrder  Int       @default(0)
   createdAt  DateTime  @default(now())
+}
+
+// NOT yet present in the live production database — new model added for
+// the admin "Downloads → Catalogue & Price Lists" feature. Mirrors
+// Certificate's shape (thumbnail + downloadable file) intentionally, so
+// both sections behave the same way in the admin panel and on the public
+// Downloads page. Run a migration before this feature will work.
+model CatalogueItem {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  imageUrl    String
+  fileUrl     String
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Testimonial {
@@ -414,11 +431,10 @@ model NewsletterSubscriber {
   createdAt DateTime @default(now())
 }
 
-// NOTE: this model is not yet present in the live production database —
-// it was recovered from git history to match the frontend's COA request
-// form and src/common/validations.ts's coaRequestSchema, both of which
-// already expect it. Run `npx prisma migrate dev` (or the equivalent
-// deploy command) against your database before this feature will work.
+// NOT yet present in the live production database — recovered from an
+// earlier git commit to match the frontend's COA request form and
+// src/common/validations.ts's coaRequestSchema, both of which already
+// expect it. Run a migration before this feature will work.
 model COARequest {
   id          String   @id @default(cuid())
   productId   String?
