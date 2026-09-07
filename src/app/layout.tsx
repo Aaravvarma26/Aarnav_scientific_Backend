@@ -15,15 +15,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-        <!-- Google tag (gtag.js) -->
-       <script async src="https://www.googletagmanager.com/gtag/js?id=G-E94Q0RJFHG"></script>
-       <script>
-        window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-E94Q0RJFHG');
-       </script>  
+        {/* Google tag (gtag.js) */}
+<Script async src="https://www.googletagmanager.com/gtag/js?id=G-E94Q0RJFHG" strategy="afterInteractive" />
+<Script
+  id="gtag-init"
+  strategy="afterInteractive"
+  dangerouslySetInnerHTML={{
+    __html: `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-E94Q0RJFHG');
+    `,
+  }}
+/>  
       </head>
       <body>{children}</body>
     </html>
