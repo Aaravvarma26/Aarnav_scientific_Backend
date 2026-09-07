@@ -18,10 +18,10 @@ export const siteConfig = {
   },
   coords: { lat: 19.0624089048394, lng: 72.92185714232721 },
   social: {
-    linkedin: "https://linkedin.com",
-    facebook: "https://facebook.com",
+    linkedin: "https://www.linkedin.com/company/aarnav-scientific/",
+    facebook: "https://www.facebook.com/profile.php?id=100077385420901",
     twitter: "https://twitter.com",
-    instagram: "https://instagram.com",
+    instagram: "https://www.instagram.com/aarnav.scientific/",
   },
   legal: {
     iso: "ISO 9001:2015 — Certificate No. QMS/30AF/1024",
@@ -62,7 +62,7 @@ export const mainNav: readonly NavItem[] = [
   },
   {
     title: "Packaging",
-    href: "/manufacturing",
+    href: "/packaging",
   },
   {
     title: "Export",

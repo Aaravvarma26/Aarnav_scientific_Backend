@@ -49,7 +49,19 @@ async function uploadToCloudinary(buffer: Buffer, fileName: string, mimeType: st
   form.append("timestamp", String(timestamp));
   form.append("signature", signature);
 
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, {
+  // Cloudinary's "auto" detection uploads PDFs as an "image" asset (so it can
+  // rasterize pages), which is subject to the stricter image size/delivery
+  // rules and, on many accounts, is blocked from public delivery by default
+  // for security reasons. Since we only need to store and serve the PDF
+  // as-is (no page thumbnails), upload it as "raw" instead — same for any
+  // other non-image/video document type.
+  const resourceType = mimeType.startsWith("image/")
+    ? "image"
+    : mimeType.startsWith("video/")
+      ? "video"
+      : "raw";
+
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, {
     method: "POST",
     body: form,
   });

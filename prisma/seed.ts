@@ -328,7 +328,7 @@ async function main() {
     { key: "industries-served", title: "Industries We Serve" },
     { key: "global-presence", title: "Our Global Presence" },
     { key: "certificates", title: "Certifications & Downloads" },
-    { key: "manufacturing", title: "Manufacturing Capabilities" },
+    { key: "packaging", title: "Manufacturing Capabilities" },
     { key: "testimonials", title: "What Our Partners Say" },
     { key: "partners", title: "Trusted By" },
   ];
